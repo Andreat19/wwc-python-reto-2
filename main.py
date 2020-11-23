@@ -1,12 +1,23 @@
 # This is a sample Python script.
 import pandas
+import re
+import string
 
 
 def generar_dataframe_palabras(text):
-    # Escribe el codigo para generar el diccionario con las ocurrencias de cada palabra
-    diccionario_ocurrencias = {}
+    # Escribe el codigo para generar el diccionario con las ocurrencias de cada palabra.
+         
+    dic_empy = {}
+    texto = re.sub('[%s]' % re.escape(string.punctuation), '', text)
+    list_text = texto.lower().split()
+    for i in list_text:
+        if i not in dic_empy:
+            dic_empy[i] = 1
+        else:
+            dic_empy[i] += 1
     # Convertir el diccionario de ocurrencias en un Dataframe usando panda
-    return dataframe
+    
+    return pandas.DataFrame([[key, dic_empy[key]] for key in dic_empy.keys()], columns=['Palabra', 'Repeticiones'])
 
 
 neruda = """Puedo escribir los versos más tristes esta noche.
